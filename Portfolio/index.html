@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ryan Chiu — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #0a0a0a;
+    --bg-elev: #111111;
+    --border: #1f1f1f;
+    --text: #ededed;
+    --text-dim: #a1a1a1;
+    --text-muted: #6b6b6b;
+    --accent: #ffffff;
+    --green: #4ade80;
+    --blue: #60a5fa;
+    --purple: #a78bfa;
+    --pink: #f472b6;
+    --orange: #fb923c;
+    --radius: 12px;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  .mono { font-family: 'JetBrains Mono', monospace; }
+
+  /* Background grid */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(circle at 20% 10%, rgba(96, 165, 250, 0.08), transparent 40%),
+      radial-gradient(circle at 80% 80%, rgba(167, 139, 250, 0.08), transparent 40%);
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  /* Nav */
+  nav {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+    backdrop-filter: blur(12px);
+    background: rgba(10, 10, 10, 0.7);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 8px 8px 8px 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  nav .brand { font-weight: 600; font-size: 14px; margin-right: 8px; }
+  nav a {
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 13px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    transition: all 0.2s;
+  }
+  nav a:hover { color: var(--text); background: var(--bg-elev); }
+  nav .cta {
+    background: var(--text);
+    color: var(--bg);
+    font-weight: 500;
+  }
+  nav .cta:hover { background: #d4d4d4; color: var(--bg); }
+
+  /* Container */
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+  /* Hero */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 120px 0 80px;
+  }
+  .hero-grid { display: grid; grid-template-columns: 1fr auto; gap: 60px; align-items: center; }
+  .status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    font-size: 13px;
+    color: var(--text-dim);
+    margin-bottom: 24px;
+  }
+  .status .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 8px var(--green);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+  h1 {
+    font-size: clamp(40px, 7vw, 72px);
+    line-height: 1.05;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    margin-bottom: 20px;
+  }
+  h1 .accent {
+    background: linear-gradient(120deg, var(--blue), var(--purple), var(--pink));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .hero p.lead {
+    font-size: 18px;
+    color: var(--text-dim);
+    max-width: 540px;
+    margin-bottom: 32px;
+  }
+  .hero-buttons { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s;
+    border: 1px solid transparent;
+    cursor: pointer;
+  }
+  .btn-primary { background: var(--text); color: var(--bg); }
+  .btn-primary:hover { background: #d4d4d4; transform: translateY(-1px); }
+  .btn-secondary {
+    background: var(--bg-elev); color: var(--text); border-color: var(--border);
+  }
+  .btn-secondary:hover { background: #1a1a1a; transform: translateY(-1px); }
+
+  .avatar {
+    width: 220px; height: 220px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #1f1f1f, #0a0a0a);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 88px;
+    font-weight: 700;
+    color: var(--text);
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar img {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  padding: 4px;
+  box-sizing: border-box;
+  }
+  .avatar::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 50%;
+    background: conic-gradient(from 0deg, var(--blue), var(--purple), var(--pink), var(--blue));
+    z-index: -1;
+    animation: spin 8s linear infinite;
+  }
+  .avatar::after {
+    content: '';
+    position: absolute;
+    inset: 4px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #1a1a1a, #0a0a0a);
+    z-index: 0;
+  }
+  .avatar span { position: relative; z-index: 1; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Section */
+  section { padding: 80px 0; }
+  .section-title {
+    font-size: 14px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: 8px;
+  }
+  .section-heading {
+    font-size: clamp(28px, 4vw, 40px);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin-bottom: 48px;
+  }
+
+  /* About */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 48px;
+  }
+  .about-text p { color: var(--text-dim); margin-bottom: 16px; font-size: 16px; }
+  .stack-card {
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+  }
+  .stack-card h4 { font-size: 14px; margin-bottom: 16px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; }
+  .stack-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    padding: 5px 10px;
+    background: #181818;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text-dim);
+  }
+
+  /* Projects */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+  .project {
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .project::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent-color, var(--blue)), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .project:hover { transform: translateY(-4px); border-color: #2a2a2a; }
+  .project:hover::before { opacity: 0.5; }
+  .project-icon {
+    width: 44px; height: 44px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 20px;
+    font-size: 22px;
+  }
+  .icon-blue { background: rgba(96, 165, 250, 0.1); color: var(--blue); }
+  .icon-purple { background: rgba(167, 139, 250, 0.1); color: var(--purple); }
+  .icon-pink { background: rgba(244, 114, 182, 0.1); color: var(--pink); }
+  .icon-green { background: rgba(74, 222, 128, 0.1); color: var(--green); }
+  .icon-orange { background: rgba(251, 146, 60, 0.1); color: var(--orange); }
+  .project h3 { font-size: 18px; font-weight: 600; margin-bottom: 8px; }
+  .project p { color: var(--text-dim); font-size: 14px; margin-bottom: 20px; }
+  .project-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+  .project-link {
+    color: var(--text);
+    text-decoration: none;
+    font-size: 13px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+  }
+  .project-link:hover { color: var(--blue); }
+
+  /* Experience */
+  .timeline { position: relative; padding-left: 32px; }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 8px; top: 8px; bottom: 8px;
+    width: 1px; background: var(--border);
+  }
+  .timeline-item { position: relative; margin-bottom: 36px; }
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -28px; top: 6px;
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 2px solid var(--blue);
+  }
+  .timeline-date {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+  }
+  .timeline-item h3 { font-size: 17px; font-weight: 600; }
+  .timeline-item .company { color: var(--text-dim); font-size: 14px; margin-bottom: 8px; }
+  .timeline-item p { color: var(--text-dim); font-size: 14px; }
+
+  /* Contact */
+  .contact-card {
+    background: linear-gradient(135deg, #111111, #0a0a0a);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 60px 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .contact-card::before {
+    content: '';
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: radial-gradient(circle at center, rgba(96, 165, 250, 0.08), transparent 40%);
+    pointer-events: none;
+  }
+  .contact-card h2 { font-size: 36px; margin-bottom: 12px; position: relative; }
+  .contact-card p { color: var(--text-dim); margin-bottom: 28px; position: relative; }
+  .socials { display: flex; gap: 12px; justify-content: center; position: relative; flex-wrap: wrap; }
+
+  /* Footer */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 32px 0;
+    margin-top: 80px;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 13px;
+  }
+
+  @media (max-width: 768px) {
+    nav { padding: 6px 6px 6px 14px; gap: 4px; }
+    nav a { font-size: 12px; padding: 6px 10px; }
+    nav .nav-link-hide { display: none; }
+    .hero-grid { grid-template-columns: 1fr; gap: 32px; text-align: center; }
+    .hero-buttons { justify-content: center; }
+    .avatar { width: 160px; height: 160px; font-size: 64px; margin: 0 auto; }
+    .about-grid, .projects-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="brand">Title Card</span>
+  <a href="#about" class="nav-link-hide">About</a>
+  <a href="#projects" class="nav-link-hide">Projects</a>
+  <a href="#experience" class="nav-link-hide">Experience</a>
+  <a href="#contact" class="cta">Contact</a>
+</nav>
+
+<section class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <div class="status">
+          <span class="dot"></span>
+          <span>Available for new opportunities</span>
+        </div>
+        <h1>Hi, I'm Ryan,<br/>I <span class="accent">specialize</span> in data-driven research</h1>
+        <p class="lead"></p>
+        <div class="hero-buttons">
+          <a href="#projects" class="btn btn-primary">View my work</a>
+          <a href="#contact" class="btn btn-secondary">Get in touch</a>
+        </div>
+      </div>
+      <div class="avatar"><img src="Me.jpg" alt="Ryan Chiu"></div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="container">
+    <div class="section-title">// About</div>
+    <h2 class="section-heading">A bit about me</h2>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>I'm a CFA Level II Candidate pursuing an Honours Bachelor of Science in Economics and Mathematical Sciences at the University of Toronto.</p>
+        <p>Always enthusiastic and love working with other people, I enjoy breaking down complex information to identify the most valuable insight. With a strong work ethic and genuine willingness to learn, I make it my everyday priority to grow and contribute.</p>
+        <p>Currently seeking analyst opportunities in investment banking, equity research, and corporate finance.</p>
+      </div>
+      <div class="stack-card">
+        <h4>Competencies</h4>
+        <div class="stack-tags">
+          <span class="tag">Financial Analysis</span>
+          <span class="tag">Financial Valuation</span>
+          <span class="tag">Financial Modeling</span>
+          <span class="tag">Financial Statement Analysis</span>
+          <span class="tag">Equity Research</span>
+          <span class="tag">Python</span>
+          <span class="tag">SQL</span>
+          <span class="tag">Microsoft Excel</span>
+          <span class="tag">Microsoft PowerPoint</span>
+          <span class="tag">Microsoft Word</span>
+          <span class="tag">English</span>
+          <span class="tag">Chinese Mandarin</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="container">
+    <div class="section-title">// Projects</div>
+    <h2 class="section-heading">Selected work</h2>
+    <div class="projects-grid">
+
+      <div class="project">
+        <div class="project-icon icon-blue">◆</div>
+        <h3>Equity Research Report: Mullen Group Ltd.</h3>
+        <p>Evaluation of Mullen Group Ltd. through company, industry, and financial analysis. Testing if its current share price appropriately reflects its growth prospects, operating risks, and shareholder return potential. Conducting valuation to derive a target price and support an investment recommendation.</p>
+        <div class="project-tags">
+          <span class="tag">Equity Research</span>
+          <span class="tag">Company Valuation</span>
+          <span class="tag">Financial Analysis & Modeling</span>
+          <span class="tag">Microsoft Excel</span>
+          <span class="tag">Microsoft Powerpoint</span>
+          <span class="tag">Python</span>
+          <span class="tag">SQL</span>
+        </div>
+        <a href="Equity Reasearch on Mullen Group Ltd.pdf" class="project-link">View project →</a>
+      </div>
+
+      <div class="project">
+        <div class="project-icon icon-purple">▲</div>
+        <h3>Leveraged Buyout Analysis: Electronic Arts Inc.</h3>
+        <p>Evaluation of Electronic Arts’ $55 billion leveraged buyout through LBO valuation, DCF modeling, capital structure analysis, debt tax shields, financial distress risk, and real options. Justifying transaction premium through projected returns, strategic flexibility, and value creation.</p>
+        <div class="project-tags">
+          <span class="tag">Leveraged Buyout Analysis</span>
+          <span class="tag">Capital Structure Analysis</span>
+          <span class="tag">Real Options Valuation</span>
+          <span class="tag">DCF/APV/IRR Modeling</span>
+          <span class="tag">Corporate Finance</span>
+        </div>
+        <a href="https://ryan235866.substack.com/p/electronic-arts-55-billion-leveraged" class="project-link">View project →</a>
+      </div>
+
+      <div class="project">
+        <div class="project-icon icon-green">●</div>
+        <h3>Policy Brief: Labor Market</h3>
+        <p>A policy brief focusing on labour market inequalities due to talent misallocation, raised labour costs, and reduced productivity. Constraining India’s long-term economic growth potential.</p>
+        <div class="project-tags">
+          <span class="tag">Empirical Research Analysis</span>
+          <span class="tag">Economic Policy Analysis</span>
+          <span class="tag">Labor Market Analysis</span>
+        </div>
+        <a href="Policy Brief on Labor Market.pdf" class="project-link">View project →</a>
+      </div>
+     </div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="container">
+    <div class="section-title">// Experience</div>
+    <h2 class="section-heading">Where I've been</h2>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-date">November 2025 - April 2026 │ Ontario, Canada</div>
+        <h3>Customer Experience Associate</h3>
+        <div class="company">Toronto-Dominion Bank</div>
+        <p></p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">January 2025 - June 2025 │ Taichung, Taiwan</div>
+        <h3>Corporal │ Battalion Financial & Administrative Support │ Mandatory Military Service</h3>
+        <div class="company">Republic of China Army (Taiwan)</div>
+        <p></p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">June 2023 - August 2023 │ Milano, Italy</div>
+        <h3>Business Development Intern │ International B2B Trade Exhibitions & European Client Meetings</h3>
+        <div class="company">Asian First Refrigeration Corporation</div>
+        <p></p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">September 2020 - June 2021 │ Taichung, Taiwan</div>
+        <h3>Accounting Data Entry Clerk</h3>
+        <div class="company">Asian First Refrigeration Corporation</div>
+        <p></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="container">
+    <div class="contact-card">
+      <h2>Professional Resources</h2>
+      <p>Always happy to connect, collaborate, or discuss professional opportunities</p>
+      <div class="socials">
+        <a href="mailto:rchiu897919@gmail.com" class="btn btn-primary">✉ rchiu897919@gmail.com</a>
+        <a href="www.linkedin.com/in/ryan-chiu0614" class="btn btn-secondary">LinkedIn</a>
+        <a href="https://credentials.cfainstitute.org/4a3d6b1e-c2d9-4da6-9079-6b88ea9da7ce#acc.x5viVYPa" class="btn btn-secondary">CFA Credentials</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p>© 2026 Ryan Chiu</p>
+  </div>
+</footer>
+
+</body>
+</html>
